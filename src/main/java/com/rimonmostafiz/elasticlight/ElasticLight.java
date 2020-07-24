@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ElasticLightApplication {
+public class ElasticLight {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ElasticLightApplication.class, args);
+		SpringApplication.run(ElasticLight.class, args);
 	}
 
 }
