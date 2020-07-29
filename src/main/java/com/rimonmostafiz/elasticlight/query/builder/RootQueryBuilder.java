@@ -20,6 +20,12 @@ public class RootQueryBuilder {
         return this;
     }
 
+    public RootQueryBuilder withBool(BoolQueryBuilder boolQueryBuilder) {
+        Bool bool = boolQueryBuilder.getBool();
+        this.query.setQuery(bool);
+        return this;
+    }
+
     public Query build() {
         return this.query;
     }

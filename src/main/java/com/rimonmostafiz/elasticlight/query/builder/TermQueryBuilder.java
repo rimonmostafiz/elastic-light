@@ -1,6 +1,8 @@
 package com.rimonmostafiz.elasticlight.query.builder;
 
 import com.rimonmostafiz.elasticlight.query.Argument;
+import com.rimonmostafiz.elasticlight.query.Bool;
+import com.rimonmostafiz.elasticlight.query.Query;
 import com.rimonmostafiz.elasticlight.query.criteria.TermQuery;
 import lombok.Data;
 
@@ -17,6 +19,10 @@ public class TermQueryBuilder {
 
     public TermQueryBuilder(String field, String value) {
         this.termQuery = new TermQuery(field, value);
+    }
+
+    public TermQueryBuilder(TermQuery termQuery) {
+        this.termQuery = termQuery;
     }
 
     public static TermQueryBuilder termQuery(String field, String value) {
@@ -36,5 +42,12 @@ public class TermQueryBuilder {
 
     public TermQuery build() {
         return this.termQuery;
+    }
+
+    public Query wrapWithRoot() {
+        RootQueryBuilder rootQueryBuilder = new RootQueryBuilder();
+        return rootQueryBuilder.withBool(BoolQueryBuilder.withShould(ShouldQueryBuilder.withTerm(this))).build();
+        //Bool bool = BoolQueryBuilder.withShould(ShouldQueryBuilder.withTerm(this)).build();
+        //return new Query(bool);
     }
 }
