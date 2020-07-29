@@ -9,6 +9,7 @@ import lombok.Data;
 public class Query {
     private Bool query;
 
-    public Query() {
+    public Query(Bool bool) {
+        this.query = bool;
     }
 }
