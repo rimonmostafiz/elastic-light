@@ -12,9 +12,9 @@ import java.util.Map;
  */
 @Data
 public class TermQuery implements CriteriaQuery {
-    private Map<String, Argument> term;
     @JsonIgnore
     private String field;
+    private Map<String, Argument> term;
 
     public TermQuery() {
         this.term = new HashMap<>();
@@ -23,5 +23,9 @@ public class TermQuery implements CriteriaQuery {
     public TermQuery(String field, String value) {
         this();
         this.term.put(field, new Argument(value));
+    }
+
+    public static TermQuery term(String field, String value) {
+        return new TermQuery(field, value);
     }
 }
