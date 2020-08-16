@@ -1,6 +1,5 @@
 package com.rimonmostafiz.elasticlight.query.builder;
 
-import com.rimonmostafiz.elasticlight.query.Bool;
 import com.rimonmostafiz.elasticlight.query.Query;
 import lombok.Data;
 
@@ -9,21 +8,16 @@ import lombok.Data;
  */
 @Data
 public class RootQueryBuilder {
-    private final Query query;
+    private Query query;
 
-    public RootQueryBuilder() {
+    private RootQueryBuilder() {
         this.query = new Query();
     }
 
-    public RootQueryBuilder withBool(Bool bool) {
-        this.query.setQuery(bool);
-        return this;
-    }
-
-    public RootQueryBuilder withBool(BoolQueryBuilder boolQueryBuilder) {
-        Bool bool = boolQueryBuilder.getBool();
-        this.query.setQuery(bool);
-        return this;
+    public static RootQueryBuilder bool(BoolQueryBuilder boolQueryBuilder) {
+        RootQueryBuilder rootQueryBuilder = new RootQueryBuilder();
+        rootQueryBuilder.getQuery().setQuery(boolQueryBuilder.getBool());
+        return rootQueryBuilder;
     }
 
     public Query build() {
