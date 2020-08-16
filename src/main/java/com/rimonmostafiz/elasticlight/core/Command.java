@@ -1,5 +1,6 @@
 package com.rimonmostafiz.elasticlight.core;
 
+import com.rimonmostafiz.elasticlight.query.Query;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,8 +16,23 @@ public class Command {
     private Head head;
 
     public Command() {
-        this.path = "";
-        this.verb = Verb.GET;
-        this.head = Head.JSON;
+    }
+
+    public static Command of(Verb verb, String path, String body, Head head) {
+        Command command = new Command();
+        command.setVerb(verb);
+        command.setPath(path);
+        command.setBody(body);
+        command.setHead(head);
+        return command;
+    }
+
+    public static Command of(Verb verb, String path, Query query, Head head) {
+        Command command = new Command();
+        command.setVerb(verb);
+        command.setPath(path);
+        command.setBody(query.toString());
+        command.setHead(head);
+        return command;
     }
 }
