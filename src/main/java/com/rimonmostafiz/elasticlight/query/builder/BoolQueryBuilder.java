@@ -1,8 +1,6 @@
 package com.rimonmostafiz.elasticlight.query.builder;
 
 import com.rimonmostafiz.elasticlight.query.Bool;
-import com.rimonmostafiz.elasticlight.query.bool.Must;
-import com.rimonmostafiz.elasticlight.query.bool.Should;
 import lombok.Data;
 
 /**
@@ -12,26 +10,24 @@ import lombok.Data;
 public class BoolQueryBuilder {
     private Bool bool;
 
-    public BoolQueryBuilder() {
+    private BoolQueryBuilder() {
         this.bool = new Bool();
     }
 
     public BoolQueryBuilder(ShouldQueryBuilder shouldBuilder) {
-        Should should = shouldBuilder.getShould();
-        this.bool = new Bool(should);
+        this.bool = new Bool(shouldBuilder.getShould());
     }
 
     public BoolQueryBuilder(MustQueryBuilder mustBuilder) {
-        Must must = mustBuilder.getMust();
-        this.bool = new Bool(must);
+        this.bool = new Bool(mustBuilder.getMust());
     }
 
-    public static BoolQueryBuilder withShould(ShouldQueryBuilder shouldQueryBuilder) {
+    public static BoolQueryBuilder of(ShouldQueryBuilder shouldQueryBuilder) {
         return new BoolQueryBuilder(shouldQueryBuilder);
     }
 
-    public static BoolQueryBuilder withMust(MustQueryBuilder mustQueryBuilder) {
-        return new BoolQueryBuilder();
+    public static BoolQueryBuilder of(MustQueryBuilder mustQueryBuilder) {
+        return new BoolQueryBuilder(mustQueryBuilder);
     }
 
     public Bool build() {

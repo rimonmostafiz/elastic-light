@@ -1,7 +1,5 @@
 package com.rimonmostafiz.elasticlight.query.builder;
 
-import com.rimonmostafiz.elasticlight.query.Argument;
-import com.rimonmostafiz.elasticlight.query.Bool;
 import com.rimonmostafiz.elasticlight.query.Query;
 import com.rimonmostafiz.elasticlight.query.criteria.TermQuery;
 import lombok.Data;
@@ -13,41 +11,28 @@ import lombok.Data;
 public class TermQueryBuilder {
     private TermQuery termQuery;
 
-    public TermQueryBuilder() {
-        this.termQuery = new TermQuery();
-    }
-
-    public TermQueryBuilder(String field, String value) {
-        this.termQuery = new TermQuery(field, value);
-    }
-
-    public TermQueryBuilder(TermQuery termQuery) {
+    private TermQueryBuilder(TermQuery termQuery) {
         this.termQuery = termQuery;
     }
 
-    public static TermQueryBuilder termQuery(String field, String value) {
-        return new TermQueryBuilder(field, value);
+    public static TermQueryBuilder of(String field, String value) {
+        TermQuery termQuery = new TermQuery(field, value);
+        return new TermQueryBuilder(termQuery);
     }
 
-    public TermQueryBuilder forField(String field) {
-        this.termQuery.setField(field);
-        this.termQuery.getTerm().put(field, new Argument());
-        return this;
+    public Query wrapWithMust() {
+        MustQueryBuilder mqb = MustQueryBuilder.term(this);
+        BoolQueryBuilder bqb = BoolQueryBuilder.of(mqb);
+        return RootQueryBuilder.bool(bqb).build();
     }
 
-    public TermQueryBuilder withValue(String value) {
-        this.termQuery.getTerm().put(this.termQuery.getField(), new Argument(value));
-        return this;
+    public Query wrapWithShould() {
+        ShouldQueryBuilder sqb = ShouldQueryBuilder.withTerm(this);
+        BoolQueryBuilder bqb = BoolQueryBuilder.of(sqb);
+        return RootQueryBuilder.bool(bqb).build();
     }
 
     public TermQuery build() {
         return this.termQuery;
-    }
-
-    public Query wrapWithRoot() {
-        RootQueryBuilder rootQueryBuilder = new RootQueryBuilder();
-        return rootQueryBuilder.withBool(BoolQueryBuilder.withShould(ShouldQueryBuilder.withTerm(this))).build();
-        //Bool bool = BoolQueryBuilder.withShould(ShouldQueryBuilder.withTerm(this)).build();
-        //return new Query(bool);
     }
 }
