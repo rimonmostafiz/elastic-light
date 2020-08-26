@@ -1,0 +1,51 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id "io.spring.dependency-management" version "1.0.10.RELEASE"
+    id 'java'
+    id 'maven'
+    id 'idea'
+    id 'maven-publish'
+}
+
+jar {
+    getArchiveBaseName()
+    enabled = true
+}
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'com.rimonmostafiz'
+            artifactId = 'elastic-light'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.2.2.RELEASE'
+    implementation 'org.projectlombok:lombok:1.18.12'
+    implementation 'org.apache.commons:commons-lang3:3.10'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.2.2.RELEASE'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.12'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+}
+
+group = 'com.rimonmostafiz'
+version = '1.0.0'
+description = 'elastic-light'
+sourceCompatibility = '1.8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
