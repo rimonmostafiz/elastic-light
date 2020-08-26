@@ -12,27 +12,27 @@ public class CommandBuilder {
         this.command = new Command();
     }
 
-    public CommandBuilder verb(Verb verb) {
+    public CommandBuilder withVerb(Verb verb) {
         this.command.setVerb(verb);
         return this;
     }
 
-    public CommandBuilder path(String path) {
+    public CommandBuilder withPath(String path) {
         this.command.setPath(path);
         return this;
     }
 
-    public CommandBuilder query(String query) {
+    public CommandBuilder withQuery(String query) {
         this.command.setBody(query);
         return this;
     }
 
-    private CommandBuilder query(Query query) {
+    public CommandBuilder withQuery(Query query) {
         this.command.setBody(query.toString());
         return this;
     }
 
-    public CommandBuilder head(Head head) {
+    public CommandBuilder withHead(Head head) {
         this.command.setHead(head);
         return this;
     }
